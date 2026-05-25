@@ -2,6 +2,9 @@ from django.shortcuts import render
 # Agrega estas dos líneas indispensables para Django REST Framework:
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .models import Category, Product, Payments
+from .serializer import CategorySerializer, ProductSerializer, PaymentsSerializer
+
 
 
 @api_view(['GET'])
