@@ -1,0 +1,24 @@
+# React
+
+Frontend/node_modules
+Frontend/dist
+
+# Django
+
+Backend/venv
+Backend/db.sqlite3
+Backend/__pycache__
+
+# Python
+
+*.pyc
+*.pyo
+
+# VSCode
+
+.vscode/
+
+# OS
+
+.DS_Store
+Thumbs.db
