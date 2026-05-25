@@ -20,6 +20,8 @@ npm run dev
 
 ```bash
 cd Backend
-venv\Scripts\activate
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install django
 python manage.py runserver
 ```
