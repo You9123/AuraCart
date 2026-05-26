@@ -1,15 +1,14 @@
+from django.shortcuts import render
+# Agrega estas dos líneas indispensables para Django REST Framework:
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Category, Product
-from .serializers import CategorySerializer, ProductSerializer, PaymentsSerializer
-from django.shortcuts import render
-from django.http import JsonResponse
-from .models import Category, Product, Payments
+from .models import Category, Product, Payments, CustomUser
+from .serializer import CategorySerializer, ProductSerializer, PaymentsSerializer, CustomUserSerializer
 
 
 @api_view(['GET'])
 def products(request):
-    # select_related optimiza la base de datos para traer las categorías de un solo golpe
+    # 'select_related' hace un JOIN en la base de datos para traer la categoría de un solo golpe (Evita lentitud)
     queryset = Product.objects.select_related('category').all()
     serializer = ProductSerializer(queryset, many=True)
     return Response(serializer.data)
@@ -24,38 +23,33 @@ def categories(request):
 
 @api_view(['GET'])
 def dashboard_stats(request):
-    # Esta estadística se puede quedar calculada directamente ya que devuelve un JSON plano
+    # Mantenemos el cálculo directo ya que es un JSON estadístico plano muy eficiente
     data = {
         "total_categories": Category.objects.count(),
         "total_products": Product.objects.count(),
-        "low_stock_products": Product.objects.filter(stock__lte=5).count()
+        "low_stock_products": Product.objects.filter(stock__lte=5).count(),
+        "total_users": CustomUser.objects.count(),
+        "total_admins": CustomUser.objects.filter(role='ADMIN').count(),
+        "total_clients": CustomUser.objects.filter(role='CLIENT').count(),
     }
     return Response(data)
-    return JsonResponse(data)
 
 
 @api_view(['GET'])
 def payments(request):
-    data = []
+    queryset = Payments.objects.all()
+    serializer = PaymentsSerializer(queryset, many=True)
+    return Response(serializer.data)
 
-    for payment in Payments.object.all():
 
-        data.append({
+@api_view(['GET'])
+def users(request):
 
-            "id": payment.id,
+    queryset = CustomUser.objects.all()
 
-            "user": payment.user,
+    serializer = CustomUserSerializer(
+        queryset,
+        many=True
+    )
 
-            "cardType": payment.cardType,
-
-            "cardNumber": payment.cardNumber,
-
-            "expirationDate": payment.expirationDate,
-
-            # CVV Oculto
-            "cvv": "*" * len(payment.cvv),
-
-            "created_at": payment.created_at.isoformat()
-            if payment.created_at else None
-        })
-    return JsonResponse(data, safe=False)
+    return Response(serializer.data)

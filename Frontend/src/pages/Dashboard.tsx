@@ -6,6 +6,9 @@ interface DashboardStats {
   total_categories: number;
   total_products: number;
   low_stock_products: number;
+  total_users:number;
+  total_admins:number;
+  total_clients:number;
 }
 
 function Dashboard() {
@@ -14,6 +17,9 @@ function Dashboard() {
     total_categories: 0,
     total_products: 0,
     low_stock_products: 0,
+    total_users: 0,
+    total_admins: 0,
+    total_clients: 0,
   });
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -48,8 +54,8 @@ function Dashboard() {
         <p className="text-gray-400">Welcome back. Here is your store's catalog overview.</p>
       </div>
 
-      {/* Grid de Tarjetas de Control (3 columnas para tus 3 métricas reales) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Grid de tarjetas del dashboard */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-6">
         
         {/* Tarjeta: Total de Categorías */}
         <div className="bg-gray-800 p-6 rounded-xl border-l-4 border-blue-500 shadow-lg">
@@ -83,6 +89,70 @@ function Dashboard() {
             </p>
           )}
         </div>
+
+        {/* Total users */}
+        <div className="bg-gray-800 p-6 rounded-xl border-l-4 border-green-500 shadow-lg">
+
+            <div className="flex justify-between items-center mb-4">
+
+                <h3 className="text-sm font-medium uppercase tracking-wider text-gray-400">
+
+                    Total Users
+
+                </h3>
+
+            </div>
+
+            <p className="text-4xl font-bold">
+
+                {stats.total_users}
+
+            </p>
+
+        </div>
+
+        {/* Administrators */}
+        <div className="bg-gray-800 p-6 rounded-xl border-l-4 border-red-500 shadow-lg">
+
+            <div className="flex justify-between items-center mb-4">
+
+                <h3 className="text-sm font-medium uppercase tracking-wider text-gray-400">
+
+                    Administrators
+
+                </h3>
+
+        </div>
+
+        <p className="text-4xl font-bold text-red-400">
+
+            {stats.total_admins}
+
+            </p>
+
+        </div>
+
+         {/* Clients */}
+
+        <div className="bg-gray-800 p-6 rounded-xl border-l-4 border-cyan-500 shadow-lg">
+
+        <div className="flex justify-between items-center mb-4">
+
+        <h3 className="text-sm font-medium uppercase tracking-wider text-gray-400">
+
+            Clients
+
+        </h3>
+
+    </div>
+
+    <p className="text-4xl font-bold text-cyan-400">
+
+        {stats.total_clients}
+
+    </p>
+
+</div>
 
       </div>
     </div>

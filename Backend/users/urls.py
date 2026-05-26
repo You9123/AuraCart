@@ -3,12 +3,14 @@ from .views import (
     categories,
     products,
     payments,
+    users,
     dashboard_stats
 )
 
 urlpatterns = [
     path('categories/', categories),
     path('products/', products),
-    path('dashboard_stats/', dashboard_stats),
     path('payments/', payments),
+    path('users/', users),
+    path('dashboard_stats/', dashboard_stats),
 ]
